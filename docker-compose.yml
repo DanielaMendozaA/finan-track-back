@@ -1,0 +1,15 @@
+services:
+  db-finan-track:
+    image: postgres:14.3
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - ./postgres-users:/var/lib/postgresql/data
+    env_file:
+      - ./.env
+
