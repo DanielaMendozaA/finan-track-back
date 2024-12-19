@@ -8,7 +8,7 @@ import { setupGlobalConfig } from './common/config/global-config';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
-  const PORT = configService.get<number>('PORT_DANY') || 3001;
+  const PORT = configService.get<number>('PORT') || 3001;
   const logger = new Logger('Boostrap');
   app.enableCors();
 

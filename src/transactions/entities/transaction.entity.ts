@@ -25,10 +25,10 @@ export class Transaction extends AuditableEntity{
     @Column()
     amount: number
 
-    @ManyToOne(() => Category, { nullable: true })
+    @ManyToOne(() => Category, { nullable: true,  onDelete: 'CASCADE' }, )
     category: Category;
 
-    @ManyToOne(() => Budget, { nullable: true })
+    @ManyToOne(() => Budget, { nullable: true,  onDelete: 'CASCADE'  })
     budget: Budget;
 
 

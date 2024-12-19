@@ -1,6 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
+import { startOfWeek, addDays, isBefore, subHours, isEqual, isAfter } from "date-fns";
 
 import { CreateBudgetDto } from './dto/create-budget.dto';
 import { UpdateBudgetDto } from './dto/update-budget.dto';
@@ -8,7 +9,6 @@ import { Budget } from './entities/budget.entity';
 import { FrequencyEnum } from 'src/enums/frequency.enum';
 import { BudgetTypeEnum } from 'src/enums/budget-type.enum';
 import { UsersService } from 'src/users/users.service';
-import { startOfWeek, addDays, isBefore, subHours, isEqual, isAfter } from "date-fns";
 
 interface NewDates {
   startDate: Date | null,
@@ -83,6 +83,8 @@ export class BudgetsService {
     return true
   }
 
+
+
   async create(createBudgetDto: CreateBudgetDto) {
     const user = await this.userService.findOneByTerm(createBudgetDto.userId);
     let createdBudget: Budget
@@ -100,7 +102,7 @@ export class BudgetsService {
       budgetToCreate.startDate = createBudgetDto.startDate;
       budgetToCreate.endDate = createBudgetDto.endDate;
     }
-    
+
     createdBudget = this.budgetRepository.create(budgetToCreate);
     return await this.budgetRepository.save(createdBudget);
   }
@@ -111,7 +113,8 @@ export class BudgetsService {
       where: {
         user,
         type: BudgetTypeEnum.FREQUENCY
-      }
+      },
+      relations: ['categories']
     })
     return budgets;
   }
@@ -122,7 +125,8 @@ export class BudgetsService {
       where: {
         user,
         type: BudgetTypeEnum.OCCASIONAL
-      }
+      },
+      relations: ['categories']
     })
     return budgets;
 
@@ -132,7 +136,8 @@ export class BudgetsService {
     const budget = await this.budgetRepository.findOne({
       where: {
         id
-      }
+      },
+      relations: ['categories']
     })
     if (!budget)
       throw new NotFoundException("Budget not found");

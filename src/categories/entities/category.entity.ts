@@ -2,6 +2,7 @@ import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "ty
 import { Budget } from "src/budgets/entities/budget.entity";
 import { AuditableEntity } from "src/common/entities/auditable.entity";
 import { Transaction } from "src/transactions/entities/transaction.entity";
+import { CategoryType } from "src/enums/category-type.enum";
 
 
 @Entity('categories')
@@ -12,19 +13,23 @@ export class Category extends AuditableEntity {
     @Column()
     name: string;
 
-    @Column()
-    icon: string;
-
-    @Column()
+    @Column('decimal')
     baseAmount: number;
 
-    @Column()
+    @Column('decimal')
     currentAmount: number;
 
-    @ManyToOne(() => Budget, budget => budget.categories, {onDelete: 'CASCADE'})
+    @Column({
+        type: "enum",
+        enum: CategoryType
+    })
+    type: CategoryType
+
+
+    @ManyToOne(() => Budget, budget => budget.categories, { onDelete: 'CASCADE' })
     budget: Budget;
 
-    @OneToMany(() => Transaction, transaction => transaction.category)
+    @OneToMany(() => Transaction, transaction => transaction.category, { cascade: true })
     transactions: Transaction[]
 
 }

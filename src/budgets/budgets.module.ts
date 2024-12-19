@@ -12,5 +12,9 @@ import { UsersModule } from 'src/users/users.module';
   ],
   controllers: [BudgetsController],
   providers: [BudgetsService],
+  exports: [
+    TypeOrmModule,
+    BudgetsService
+  ]
 })
 export class BudgetsModule {}

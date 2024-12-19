@@ -30,7 +30,7 @@ import { TransactionsModule } from './transactions/transactions.module';
     TokensModule,
     BudgetsModule,
     CategoriesModule,
-    TransactionsModule
+    TransactionsModule,
   ],
   controllers: [],
   providers: [],

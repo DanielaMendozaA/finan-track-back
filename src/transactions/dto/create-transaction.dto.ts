@@ -1,5 +1,5 @@
 import { Transform, Type } from "class-transformer";
-import { IsDate, IsDecimal, IsEnum, IsInt, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsDate, IsDecimal, IsEnum, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 import { TransactionTypeEnum } from "src/enums/transaction-type.enum";
 
 export class CreateTransactionDto {
@@ -9,7 +9,7 @@ export class CreateTransactionDto {
 
     @IsNotEmpty()
     @IsDate()
-    @Transform(({value}) => value ? new Date(value) : value)
+    @Transform(({ value }) => value ? new Date(value) : value)
     date: Date;
 
     @IsEnum(TransactionTypeEnum)
@@ -17,7 +17,7 @@ export class CreateTransactionDto {
     type: TransactionTypeEnum
 
     @IsNotEmpty()
-    @IsDecimal()
+    @IsNumber()
     amount: number
 
     @IsInt()

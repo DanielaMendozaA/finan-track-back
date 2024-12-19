@@ -1,6 +1,7 @@
-import { Transform } from "class-transformer";
+import { Transform, Type } from "class-transformer";
 import { IsDate, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, Min, MinLength } from "class-validator";
 import { BudgetTypeEnum } from "src/enums/budget-type.enum";
+import { CurrencyEnum } from "src/enums/currency.enum";
 import { FrequencyEnum } from "src/enums/frequency.enum";
 
 export class CreateBudgetDto {
@@ -35,6 +36,10 @@ export class CreateBudgetDto {
     @IsUUID()
     @IsNotEmpty()
     userId: string
+
+    @IsNotEmpty()
+    @IsEnum(CurrencyEnum)
+    currency : CurrencyEnum
 
 
 }

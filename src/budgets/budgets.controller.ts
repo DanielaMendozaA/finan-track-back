@@ -23,6 +23,12 @@ export class BudgetsController {
     return this.budgetsService.findAllOccasionalByUser(query.userId)
   }
 
+  
+  @Get(':id')
+  findOne(@Param('id') id: number){
+    return this.budgetsService.findOne(id)
+  }
+
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBudgetDto: UpdateBudgetDto) {

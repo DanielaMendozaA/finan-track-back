@@ -1,6 +1,7 @@
 import { Category } from "src/categories/entities/category.entity";
 import { AuditableEntity } from "src/common/entities/auditable.entity";
 import { BudgetTypeEnum } from "src/enums/budget-type.enum";
+import { CurrencyEnum } from "src/enums/currency.enum";
 import { FrequencyEnum } from "src/enums/frequency.enum";
 import { Transaction } from "src/transactions/entities/transaction.entity";
 import { User } from "src/users/entities/user.entity";
@@ -35,6 +36,12 @@ export class Budget extends AuditableEntity {
     frequency: FrequencyEnum
 
     @Column({
+        type: "enum",
+        enum: CurrencyEnum,
+    })
+    currency: CurrencyEnum
+
+    @Column({
         nullable: true
     })
     startDate: Date
@@ -46,11 +53,11 @@ export class Budget extends AuditableEntity {
 
     @ManyToOne(() => User, user => user.budgets)
     user: User;
-    
-    @OneToMany(() => Category, category => category.budget, {cascade: true})
+
+    @OneToMany(() => Category, category => category.budget, { cascade: true })
     categories: Category[];
 
-    @OneToMany(() => Transaction, transaction => transaction.budget)
+    @OneToMany(() => Transaction, transaction => transaction.budget, { cascade: true })
     transactions: Transaction[]
 
 
